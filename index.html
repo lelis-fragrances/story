@@ -1,1 +1,579 @@
-<h1>Welcome to Lelis Fragrances</h1>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>르리스 향수공방 (LE LIS) - 프라이빗 조향 클래스 및 단체 출강</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #80575c;
+            --primary-hover: #654047;
+            --accent-bg: #f7f2f2;
+            --sage-bg: #f0f4f1;
+            --sage-text: #425d4e;
+            --text-color: #343734;
+            --text-light: #60635f;
+            --border-color: #e4e6e2;
+            --section-gap: 24px;
+        }
+        
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: var(--text-color);
+            line-height: 1.8;
+            word-break: keep-all; 
+            background-color: #faf9f6;
+            overflow-wrap: anywhere;
+            isolation: isolate;
+        }
+
+        .scene-background {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+            background: #faf9f6;
+        }
+        .background-photo {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center 45%;
+            filter: saturate(0.6);
+            opacity: 0;
+            transition: opacity 1400ms ease-in-out;
+        }
+        .background-light { opacity: 1; object-position: center 55%; }
+        .background-atelier { object-position: center 60%; }
+        .scene-background::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(255, 254, 252, 0.42), transparent 35%, rgba(255, 254, 252, 0.45)), linear-gradient(90deg, rgba(255, 254, 252, 0.38), rgba(255, 254, 252, 0.86) 35%, rgba(255, 254, 252, 0.86) 65%, rgba(255, 254, 252, 0.38));
+        }
+        body[data-scene="gathering"] .background-light,
+        body[data-scene="studio"] .background-light { opacity: 0; }
+        body[data-scene="gathering"] .background-atelier,
+        body[data-scene="studio"] .background-atelier { opacity: 1; }
+
+        h1, h2, .gallery-title, header p, .subtitle {
+            font-family: 'Gowun Batang', serif;
+        }
+
+        .page-wrapper {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            padding-bottom: 80px; 
+        }
+
+        header { padding: 70px 20px 40px; text-align: center; }
+        header h1 { font-size: 2.5rem; margin: 0 0 10px; color: var(--text-color); font-weight: 700; text-shadow: 0 2px 10px rgba(255,255,255,0.8); }
+        .brand-name { display: block; margin-top: 6px; font-size: 1.6rem; }
+        
+        .subtitle {
+            display: inline-block;
+            background: rgba(128, 87, 92, 0.08);
+            color: var(--primary-color);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 1.05rem;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        
+        header p { margin: 0; font-size: 1.1rem; color: var(--text-light); text-shadow: 0 1px 4px rgba(255,255,255,0.8); }
+        .header-line { display: block; }
+        
+        p { margin: 0 0 16px; text-wrap: pretty; }
+        h1, h2, .gallery-title { text-wrap: balance; }
+        .section-note { display: block; margin-top: 6px; font-size: 1rem; color: var(--text-light); }
+        .detail-note { display: block; margin-top: 4px; font-size: 0.9rem; color: var(--text-light); }
+
+        .container { max-width: 850px; margin: 0 auto; padding: 0 20px; }
+
+        .card {
+            background: rgba(255, 255, 255, 0.97);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 32px;
+            margin-bottom: var(--section-gap);
+            box-shadow: 0 4px 20px rgba(48, 58, 49, 0.04);
+        }
+        .card > :last-child { margin-bottom: 0; }
+
+        .card h2 {
+            font-size: 1.35rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 12px;
+            margin-top: 0;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+        
+        .trust-badge {
+            display: inline-block;
+            background: var(--sage-bg);
+            color: var(--sage-text);
+            padding: 8px 14px;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            font-weight: bold;
+            margin-bottom: 16px;
+            border: 1px solid #d7e2da;
+        }
+
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .feature-list { list-style: none; padding: 0; margin: 0; }
+        .feature-list li {
+            background: var(--accent-bg);
+            border-left: 3px solid var(--primary-color);
+            border-radius: 8px;
+            padding: 16px 20px;
+            margin-bottom: 12px;
+        }
+        .feature-list li:last-child { margin-bottom: 0; }
+        .feature-list li strong { display: block; color: var(--text-color); font-size: 1.05rem; margin-bottom: 6px; }
+        .feature-list li span { color: var(--text-light); font-size: 0.98rem; }
+        
+        ul.bullet-list { padding-left: 20px; margin: 0; }
+        ul.bullet-list li { margin-bottom: 14px; color: var(--text-light); }
+        ul.bullet-list li:last-child { margin-bottom: 0; }
+        ul.bullet-list strong { color: var(--text-color); display: inline; }
+
+        .client-grid { display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-start; margin-top: 16px; }
+        .client-tag {
+            background: #f6f7f5; color: var(--text-light); padding: 6px 12px; border-radius: 4px; font-size: 0.9rem; border: 1px solid var(--border-color);
+        }
+        .client-highlight { background: #e8efea; color: var(--sage-text); font-weight: bold; border-color: #d7e2da; }
+
+        .review-box {
+            background: #faf9f6;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 18px 20px;
+            margin-top: 20px;
+        }
+        .review-item {
+            position: relative;
+            padding-left: 24px;
+            margin-bottom: 12px;
+            color: var(--text-light);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        .review-item:before {
+            content: '❝';
+            position: absolute;
+            left: 0;
+            top: -2px;
+            color: #d4c8ca;
+            font-size: 1.4rem;
+        }
+        .review-item:last-child { margin-bottom: 0; }
+        .review-item strong { color: var(--primary-color); font-weight: bold; }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+        }
+        .info-item {
+            min-width: 0;
+            background: var(--sage-bg);
+            padding: 16px 18px;
+            border-radius: 6px;
+            font-size: 0.98rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+        .info-item strong { margin-bottom: 6px; color: var(--sage-text); font-size: 1rem; }
+        .info-content { color: var(--text-light); line-height: 1.7; }
+        .info-content p { margin: 0 0 4px; }
+        .info-content p:last-child { margin-bottom: 0; }
+        .contact-label { display: inline-block; margin-right: 8px; }
+        .info-location { grid-column: 1 / -1; }
+        .info-location .info-content { display: flex; flex-wrap: wrap; column-gap: 24px; row-gap: 4px; }
+        .info-location .info-content p { margin: 0; }
+        .info-location .detail-note { flex-basis: 100%; }
+        
+        .gallery-title { font-size: 1.15rem; color: var(--primary-hover); margin: 0 0 12px 0; font-weight: bold; }
+        .gallery-container { position: relative; margin-bottom: 15px; }
+        .gallery-slider {
+            display: flex; gap: 16px; overflow-x: auto; padding-bottom: 12px;
+            scroll-snap-type: x mandatory; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; scrollbar-width: none;
+        }
+        .gallery-slider::-webkit-scrollbar { display: none; }
+        
+        .gallery-item {
+            flex: 0 0 min(260px, 100%); scroll-snap-align: start; border-radius: 12px; overflow: hidden;
+            background: #fff; display: flex; flex-direction: column; border: 1px solid #f0e6da; box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+        }
+        .gallery-item img { width: 100%; height: 210px; object-fit: cover; display: block; }
+        .gallery-caption { padding: 14px; font-size: 0.95rem; text-align: center; color: var(--text-color); }
+
+        .scroll-btn {
+            position: absolute; top: 42%; transform: translateY(-50%); background: rgba(255, 255, 255, 0.95);
+            border: 1px solid #d9c8b8; color: var(--primary-color); width: 44px; height: 44px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; font-size: 1.2rem; cursor: pointer;
+            box-shadow: 0 4px 12px rgba(143, 115, 96, 0.15); z-index: 10;
+        }
+        .scroll-btn:hover { background: var(--primary-color); color: white; }
+        .scroll-btn:focus-visible, .btn:focus-visible, a:focus-visible { outline: 2px solid var(--primary-hover); outline-offset: 2px; }
+        .scroll-btn.left { left: -20px; }
+        .scroll-btn.right { right: -20px; }
+
+        .link-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 12px;
+            margin-top: 24px;
+        }
+        .btn {
+            display: flex; align-items: center; justify-content: center; min-height: 52px; text-align: center;
+            background: var(--primary-color); color: white; padding: 12px 16px; border: 1px solid transparent;
+            border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 0.95rem; line-height: 1.5;
+            transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+        }
+        .btn:hover { background: var(--primary-hover); }
+        .btn-sub { background: #ffffff; color: var(--primary-color); border-color: #d9c9cc; }
+        .btn-sub:hover { background: var(--accent-bg); color: var(--primary-hover); border-color: var(--primary-color); }
+
+        a.contact-link {
+            color: inherit;
+            text-decoration: none;
+            border-bottom: 1px dashed var(--primary-color);
+            word-break: normal;
+            overflow-wrap: anywhere;
+        }
+        
+        .highlight-box {
+            background: #f5f7f4; border-left: 3px solid #8fa394; padding: 18px; margin: 20px 0; border-radius: 0 6px 6px 0;
+        }
+
+        footer { text-align: center; padding: 20px 20px 40px; font-size: 0.85rem; color: var(--text-color); background: rgba(255, 254, 252, 0.8); }
+        footer p { margin: 0; }
+
+        .mobile-floating-cta {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
+            border-top: 1px solid var(--border-color);
+            padding: 12px 16px;
+            z-index: 100;
+            box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.05);
+        }
+        .mobile-floating-cta .cta-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .mobile-floating-cta .btn { min-height: 48px; font-size: 0.95rem; }
+
+        @media (max-width: 600px) {
+            :root { --section-gap: 16px; }
+            header { padding: 44px 20px 28px; }
+            header h1 { font-size: 2.2rem; }
+            header p { font-size: 1.05rem; }
+            .brand-name { font-size: 1.45rem; }
+            .subtitle { font-size: 0.95rem; margin-bottom: 16px; }
+            .container { padding: 0 16px; }
+            .card { padding: 24px 20px; }
+            .card h2 { font-size: 1.25rem; }
+            .info-grid, .link-grid, .quick-actions { grid-template-columns: 1fr; }
+            .scroll-btn { display: none; }
+            
+            .mobile-floating-cta { display: block; }
+            .page-wrapper { padding-bottom: 80px; } 
+            
+            .scene-background::after { background: rgba(255, 254, 252, 0.7); }
+            .background-light { object-position: 65% center; }
+            .background-atelier { object-position: 70% center; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+        }
+    </style>
+</head>
+<body data-scene="welcome">
+
+<div class="scene-background" aria-hidden="true">
+    <img class="background-photo background-light" src="lelis-bg-perfume.jpg" alt="" fetchpriority="high">
+    <img class="background-photo background-atelier" src="lelis-bg-atelier.jpg" alt="" decoding="async">
+</div>
+
+<div class="page-wrapper">
+    <header data-scene="welcome">
+        <h1>LE LIS<span class="brand-name">르리스 향수공방</span></h1>
+        <div class="subtitle">기업·기관 단체 출강 전문 · 프라이빗 조향 클래스</div>
+        <p><span class="header-line">눈에 보이지 않는 기억과 온기를 향에 담아,</span><span class="header-line">나만의 취향이 피어나는 따뜻한 여정</span></p>
+    </header>
+
+    <div class="container">
+        <!-- 1. 공방 소개 & 빠른 행동 유도 -->
+        <div class="card" data-scene="welcome">
+            <h2>르리스 공방 안내</h2>
+            <div class="trust-badge">
+                ✓ 맞춤형화장품조제관리사 · KPIA 전문 조향사 직접 진행
+            </div>
+            <p>꽃 한 송이를 고르듯 마음이 머무는 향을 찾아가는 프라이빗 조향 공간입니다. 온전히 향에 몰입할 수 있도록 1타임 1팀 집중 예약제로 운영됩니다.</p>
+            <p>산본역 도보 5분 거리의 아늑한 공간에서, 일상 속 특별한 위로가 되는 향기로운 추억을 만들어보세요.</p>
+            
+            <div class="quick-actions">
+                <a href="https://talk.naver.com/ct/w41bhz#nafullscreen" target="_blank" rel="noopener noreferrer" class="btn">기업·기관 단체 출강 문의</a>
+                <a href="https://booking.naver.com/booking/6/bizes/1050043" target="_blank" rel="noopener noreferrer" class="btn btn-sub">프라이빗 클래스 예약</a>
+            </div>
+        </div>
+
+        <!-- 2. 기업 및 단체 출강 안내 -->
+        <div class="card" data-scene="gathering">
+            <h2>기업·학교·기관 단체 출강 안내</h2>
+            <!-- 피드백 반영: 마케팅 문구 제거, 구체적 행사 목적 나열 -->
+            <p>임직원 워크숍, 지자체 및 공공기관 힐링 연수, 브랜드 VIP 초청 행사 등 행사 목적과 참여 인원, 예산에 맞춘 조향 프로그램을 제안해 드립니다.</p>
+            
+            <div class="highlight-box">
+                <ul class="bullet-list">
+                    <li><strong>참여 인원:</strong> 외부 출강 10인 이상 가능 <span class="detail-note">(공방 내 단체 수업은 최대 10인 수용)</span></li>
+                    <li><strong>소요 시간:</strong> 60분 ~ 120분 <span class="detail-note">(행사 목적과 프로그램 내용에 따라 유연하게 조율 가능)</span></li>
+                    <li><strong>출강 지역:</strong> 서울, 경기, 인천 및 전국 <span class="detail-note">(거리에 따라 출장비가 발생할 수 있습니다)</span></li>
+                    <li><strong>견적 맞춤:</strong> <strong>1인당 예산 규모를 말씀해 주시면, 맞춤형으로 프로그램을 제안해 드립니다.</strong></li>
+                    <li><strong>행정 처리:</strong> 맞춤 견적서 제공, 카드 결제 및 세금계산서 발행 가능</li>
+                </ul>
+            </div>
+
+            <ul class="feature-list" style="margin-top: 16px;">
+                <li>
+                    <strong>인기 출강 프로그램 아이템</strong>
+                    <span>시그니처 향수, MBTI 조향, 퍼퓸 핸드크림, 디퓨저, 룸 스프레이, 사쉐(향기 주머니), 롤온 퍼퓸 등 브랜드 아이덴티티와 예산에 맞춘 큐레이션</span>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 출강 기업 및 기관 레퍼런스 + 현장 갤러리 -->
+        <div class="card" data-scene="gathering">
+            <h2>함께한 출강 기업 및 기관</h2>
+            <p>다양한 대기업, 공공기관, 교육 기관에서 르리스의 전문적인 조향 클래스로 깊은 만족감을 전했습니다.</p>
+            <div class="client-grid" style="margin-bottom: 32px;">
+                <span class="client-tag client-highlight">삼성물산</span>
+                <span class="client-tag client-highlight">LS전선</span>
+                <span class="client-tag client-highlight">화성시문화관광재단</span>
+                <span class="client-tag client-highlight">경기도인재개발원</span>
+                <span class="client-tag client-highlight">AC호텔 바이 메리어트</span>
+                <span class="client-tag client-highlight">한양대학교 ERICA</span>
+                
+                <span class="client-tag">군포시청</span>
+                <span class="client-tag">남천병원</span>
+                <span class="client-tag">군포매화복지관</span>
+                <span class="client-tag">군포시장애인종합복지관</span>
+                <span class="client-tag">안양 호계초등학교</span>
+                <span class="client-tag">천안 신안초등학교</span>
+                <span class="client-tag">군포시청소년수련관</span>
+                <span class="client-tag">남산 일루지앵</span>
+            </div>
+
+            <div class="gallery-title">출강 현장 및 작품</div>
+            <div class="gallery-container">
+                <button class="scroll-btn left" aria-label="이전 사진" onclick="scrollGallery(this, -1)">❮</button>
+                <div class="gallery-slider">
+                    <!-- TODO: 실제 기업 출강 참여 현장 사진으로 교체해주세요 -->
+                    <div class="gallery-item">
+                        <img src="https://via.placeholder.com/500x400/e3d7cb/5c4e40?text=Group+Class+1" alt="출강 워크숍 세팅 현장">
+                        <div class="gallery-caption">공공기관 및 기업 출강 세팅 현장</div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="https://via.placeholder.com/500x400/e3d7cb/5c4e40?text=Group+Class+2" alt="학교 교사 및 학부모 연수">
+                        <div class="gallery-caption">학교 교사 및 학부모 연수 프로그램</div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="https://via.placeholder.com/500x400/e3d7cb/5c4e40?text=Group+Class+3" alt="기업 동호회 GWP 클래스">
+                        <div class="gallery-caption">기업 사내 동호회 및 GWP 힐링 클래스</div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="https://via.placeholder.com/500x400/e3d7cb/5c4e40?text=Group+Class+4" alt="브랜드 VIP 초청 행사">
+                        <div class="gallery-caption">브랜드 VIP 고객 초청 행사 클래스</div>
+                    </div>
+                </div>
+                <button class="scroll-btn right" aria-label="다음 사진" onclick="scrollGallery(this, 1)">❯</button>
+            </div>
+        </div>
+
+        <!-- 3. 프라이빗 클래스 안내 및 리얼 후기 -->
+        <div class="card" data-scene="studio">
+            <h2>오직 우리 팀을 위한 100% 프라이빗 원데이 클래스</h2>
+            <!-- 피드백 반영: 불필요한 반복 및 과장 표현 제거 -->
+            <p>예약하신 일행만을 위해 1타임에 1팀씩 진행합니다. 초보자도 전문 조향사의 안내에 따라 편안하게 취향에 맞는 향을 완성할 수 있습니다.</p>
+            
+            <ul class="bullet-list">
+                <li><strong>시그니처 조향 클래스 (40,000원~):</strong> 오드퍼퓸 30ml / 50ml 제작 <span class="detail-note">(내 취향을 완벽하게 담아내는 대표 프로그램)</span></li>
+                <li><strong>퍼퓸 핸드크림 클래스 (30,000원~):</strong> 촉촉한 보습감과 은은한 향을 품은 핸드크림(50g) 및 향수 세트</li>
+                <li><strong>MBTI 조향 클래스:</strong> 나의 성향과 에너지를 향으로 표현하는 색다른 블라인드 조향 체험</li>
+                <li><strong>전문가 과정:</strong> KPIA 조향사 자격증 취득을 위한 정식 교육과정</li>
+            </ul>
+            
+            <div class="review-box">
+                <div class="review-item">"향을 전혀 몰랐는데도 설명이 쏙쏙 들어오게 잘 가르쳐주셨어요! 남의 눈치 안 보고 <strong>우리끼리만 프라이빗하게</strong> 체험할 수 있어서 너무 힐링 됐습니다."</div>
+                <div class="review-item">"완성된 향수는 물론이고, 패키징이 <strong>시판 브랜드 향수처럼 고급스러워서</strong> 나에게 주는 선물로 최고예요."</div>
+                <!-- 피드백 반영: 출처 표기를 통해 신뢰도 상승 -->
+                <p class="detail-note" style="text-align: right; margin-top: 8px;">* 네이버 예약 고객 후기 중 발췌</p>
+            </div>
+
+            <!-- 공방 원데이 클래스 갤러리 -->
+            <div class="gallery-title" style="margin-top: 32px;">공방 원데이 클래스</div>
+            <div class="gallery-container">
+                <button class="scroll-btn left" aria-label="이전 사진" onclick="scrollGallery(this, -1)">❮</button>
+                <div class="gallery-slider">
+                    <!-- TODO: 실제 공방 전경, 커플 체험, 패키징 완료 사진으로 교체해주세요 -->
+                    <div class="gallery-item">
+                        <img src="https://via.placeholder.com/500x400/f0e6d8/5c4e40?text=Private+Class+1" alt="나만의 향수 만들기">
+                        <div class="gallery-caption">시그니처 & MBTI 향수 조향 체험</div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="https://via.placeholder.com/500x400/f0e6d8/5c4e40?text=Private+Class+2" alt="퍼퓸 핸드크림 만들기">
+                        <div class="gallery-caption">촉촉한 퍼퓸 핸드크림 제작 클래스</div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="https://via.placeholder.com/500x400/f0e6d8/5c4e40?text=Private+Class+3" alt="공간 향기 오브제">
+                        <div class="gallery-caption">공간을 채우는 퍼퓸 디퓨저 제작</div>
+                    </div>
+                </div>
+                <button class="scroll-btn right" aria-label="다음 사진" onclick="scrollGallery(this, 1)">❯</button>
+            </div>
+
+            <p style="margin-top: 20px;">남은 잔여석 확인과 실시간 예약은 <a href="https://booking.naver.com/booking/6/bizes/1050043" target="_blank" rel="noopener noreferrer" class="contact-link">네이버 예약</a>에서 간편하게 진행하실 수 있습니다.</p>
+        </div>
+
+        <!-- 4. 이용 안내 및 예약 -->
+        <div class="card" data-scene="visit">
+            <h2>오시는 길 및 이용 안내</h2>
+            <p>방문 전 참고해 주시기 바라며, 궁금하신 점은 편하게 문의해 주세요.</p>
+            <div class="info-grid">
+                <div class="info-item">
+                    <strong>운영 시간</strong>
+                    <div class="info-content">
+                        <p>매일 10:00 ~ 21:00</p>
+                        <p>100% 사전 예약제 (1팀 프라이빗 진행)</p>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <strong>상담 및 문의</strong>
+                    <div class="info-content">
+                        <p><span class="contact-label">전화</span><a href="tel:0507-1370-2812" class="contact-link">0507-1370-2812</a></p>
+                        <p><span class="contact-label">이메일</span><a href="mailto:lelisfragrance@gmail.com" class="contact-link">lelisfragrance@gmail.com</a></p>
+                    </div>
+                </div>
+                <div class="info-item info-location">
+                    <strong>위치 및 주차</strong>
+                    <div class="info-content">
+                        <p>경기 군포시 산본천로 56, 센트로 601호 (산본역 3번 출구 도보 5분)</p>
+                        <p class="detail-note">(건물 지하 주차장에 편리하고 무료 주차가 가능합니다)</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 피드백 반영: 외부 링크 보안 속성 (rel) 일괄 통일 -->
+            <div class="link-grid">
+                <a href="https://talk.naver.com/ct/w41bhz#nafullscreen" target="_blank" rel="noopener noreferrer" class="btn">네이버 톡톡 문의</a>
+                <a href="https://booking.naver.com/booking/6/bizes/1050043" target="_blank" rel="noopener noreferrer" class="btn">네이버 예약 바로가기</a>
+                <a href="https://m.place.naver.com/place/1436553383/home" target="_blank" rel="noopener noreferrer" class="btn btn-sub">네이버 플레이스 정보</a>
+                <a href="https://www.instagram.com/lelis.fragrances/" target="_blank" rel="noopener noreferrer" class="btn btn-sub">인스타그램 방문하기</a>
+                <a href="https://blog.naver.com/lelis_" target="_blank" rel="noopener noreferrer" class="btn btn-sub">르리스 이야기 & 출강 후기</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 LE LIS Fragrance Workshop. All rights reserved.</p>
+    </footer>
+</div>
+
+<!-- 모바일 전용 듀얼 고정 CTA 버튼 -->
+<div class="mobile-floating-cta">
+    <div class="cta-grid">
+        <a href="https://talk.naver.com/ct/w41bhz#nafullscreen" target="_blank" rel="noopener noreferrer" class="btn btn-sub">기업 출강 문의</a>
+        <a href="https://booking.naver.com/booking/6/bizes/1050043" target="_blank" rel="noopener noreferrer" class="btn">클래스 예약</a>
+    </div>
+</div>
+
+    <script>
+        const sceneSections = [...document.querySelectorAll('.page-wrapper [data-scene]')];
+        let sceneUpdatePending = false;
+
+        function updateScene() {
+            const readingLine = window.innerHeight * 0.4;
+            let activeSection = sceneSections[0];
+
+            for (const section of sceneSections) {
+                if (section.getBoundingClientRect().top <= readingLine) {
+                    activeSection = section;
+                } else {
+                    break;
+                }
+            }
+
+            if (window.scrollY > 0 && window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 2) {
+                activeSection = sceneSections[sceneSections.length - 1];
+            }
+
+            document.body.dataset.scene = activeSection.dataset.scene;
+            sceneUpdatePending = false;
+        }
+
+        function requestSceneUpdate() {
+            if (!sceneUpdatePending) {
+                sceneUpdatePending = true;
+                window.requestAnimationFrame(updateScene);
+            }
+        }
+
+        window.addEventListener('scroll', requestSceneUpdate, { passive: true });
+        window.addEventListener('resize', requestSceneUpdate);
+        window.addEventListener('pageshow', requestSceneUpdate);
+        window.addEventListener('load', requestSceneUpdate);
+        if (document.fonts) document.fonts.ready.then(requestSceneUpdate);
+        updateScene();
+
+        function scrollGallery(btn, direction) {
+            const container = btn.parentElement;
+            const slider = container.querySelector('.gallery-slider');
+            const item = slider.querySelector('.gallery-item');
+            
+            if (item) {
+                const gap = parseFloat(window.getComputedStyle(slider).columnGap) || 0;
+                const scrollAmount = (item.getBoundingClientRect().width + gap) * direction;
+                const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                
+                slider.scrollBy({ 
+                    left: scrollAmount, 
+                    behavior: prefersReducedMotion ? 'auto' : 'smooth' 
+                });
+            }
+        }
+    </script>
+</body>
+</html>
