@@ -10,10 +10,39 @@
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://lelis-fragrances.github.io/story/">
     
+    <!-- SNS / 카카오톡 공유 정보 (Open Graph) -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="산본 향수공방 르리스(LE LIS) | 조향 원데이 클래스·기업 단체 출강">
+    <meta property="og:description" content="산본역 도보 5분. 1타임 1팀 프라이빗 조향 클래스와 기업·학교·기관 단체 출강을 운영합니다.">
+    <meta property="og:url" content="https://lelis-fragrances.github.io/story/">
+    <!-- TODO: 대표 사진을 정하신 후 아래 og:image 경로를 실제 사진으로 변경해주세요 -->
+    <meta property="og:image" content="https://images.unsplash.com/photo-1522748906645-95d8ad85256b?q=80&w=1200&auto=format&fit=crop">
+    
     <!-- 폰트 및 외부 스타일 로드 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- Google LocalBusiness 구조화 데이터 (SEO) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "르리스 향수공방",
+      "alternateName": "LE LIS",
+      "url": "https://lelis-fragrances.github.io/story/",
+      "telephone": "0507-1370-2812",
+      "email": "lelisfragrance@gmail.com",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "산본천로 56 센트로 601호",
+        "addressLocality": "군포시",
+        "addressRegion": "경기도",
+        "addressCountry": "KR"
+      },
+      "openingHours": "Mo-Su 10:00-21:00"
+    }
+    </script>
 
     <style>
         :root {
@@ -197,7 +226,6 @@
         .review-item:last-child { margin-bottom: 0; }
         .review-item strong { color: var(--primary-color); font-weight: bold; }
         
-        /* 기업 출강 중간 CTA 강조 박스 */
         .cta-highlight-box {
             background: #fcf8f8;
             border: 1px dashed var(--primary-hover);
@@ -344,10 +372,10 @@
 </head>
 <body data-scene="welcome">
 
-<!-- TODO: 배경 이미지 교체 -->
+<!-- 임시 웹 이미지 URL 적용 (추후 실제 사진으로 교체 가능) -->
 <div class="scene-background" aria-hidden="true">
-    <img class="background-photo background-light" src="lelis-bg-perfume.jpg" alt="" fetchpriority="high">
-    <img class="background-photo background-atelier" src="lelis-bg-atelier.jpg" alt="" decoding="async">
+    <img class="background-photo background-light" src="https://images.unsplash.com/photo-1522748906645-95d8ad85256b?q=80&w=2000&auto=format&fit=crop" alt="" fetchpriority="high">
+    <img class="background-photo background-atelier" src="https://images.unsplash.com/photo-1615397323145-a77382404e9c?q=80&w=2000&auto=format&fit=crop" alt="" decoding="async">
 </div>
 
 <div class="page-wrapper">
@@ -422,7 +450,7 @@
             <div class="gallery-container">
                 <button class="scroll-btn left" aria-label="이전 사진" onclick="scrollGallery(this, -1)">❮</button>
                 <div class="gallery-slider">
-                    <!-- TODO: 실제 기업 출강 참여 현장 사진으로 교체해주세요 -->
+                    <!-- 갤러리는 레이아웃 유지를 위해 placeholder 그대로 적용 -->
                     <div class="gallery-item">
                         <img src="https://via.placeholder.com/500x400/e3d7cb/5c4e40?text=Group+Class+1" alt="출강 워크숍 세팅 현장">
                         <div class="gallery-caption">공공기관 및 기업 출강 세팅 현장</div>
@@ -471,7 +499,6 @@
             <div class="gallery-container">
                 <button class="scroll-btn left" aria-label="이전 사진" onclick="scrollGallery(this, -1)">❮</button>
                 <div class="gallery-slider">
-                    <!-- TODO: 실제 공방 전경, 커플 체험, 패키징 완료 사진으로 교체해주세요 -->
                     <div class="gallery-item">
                         <img src="https://via.placeholder.com/500x400/f0e6d8/5c4e40?text=Private+Class+1" alt="나만의 향수 만들기">
                         <div class="gallery-caption">시그니처 & MBTI 향수 조향 체험</div>
